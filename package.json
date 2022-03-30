@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.1.1",
+	"version": "1.2.1",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -110,7 +110,8 @@
 		"electron-win": "electron-builder -w -c.extraMetadata.main=build/electron.js",
 		"electron-linux": "electron-builder -l -c.extraMetadata.main=build/electron.js",
 		"electron-production": "GH_TOKEN=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 electron-builder --win --mac --linux -p always",
-		"preelectron-pack": "react-scripts build"
+		"preelectron-pack": "react-scripts build",
+		"package-deploy": "electron-builder build -mwl -p always"
 	},
 	"eslintConfig": {
 		"extends": [
