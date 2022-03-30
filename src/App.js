@@ -20,7 +20,7 @@ const getFaviconEl = () => {
 }
 
 const App = observer(() => {
-	const { AUTH, AUTH: { user, company, setAxiosInterceptors } } = useStore();
+	const { AUTH, AUTH: { user, company, setAxiosInterceptors } } = useStore(); 
 	useEffect(() => {
 		setAxiosInterceptors();
 	}, [setAxiosInterceptors]);
