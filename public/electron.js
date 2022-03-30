@@ -3,9 +3,30 @@ const { app, BrowserWindow } = electron;
 const path = require('path');
 const isDev = require('electron-is-dev');
 const getmac = require('getmac');
-const { desktopCapturer } = require('electron')
+const { desktopCapturer } = require('electron');
+const log = require('electron-log');
+const { autoUpdater } = require("electron-updater");
+
+
+//-------------------------------------------------------------------
+// Logging
+//
+// THIS SECTION IS NOT REQUIRED
+//
+// This logging setup is not required for auto-updates to work,
+// but it sure makes debugging easier :)
+//-------------------------------------------------------------------
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 let mainWindow = null;
+
+function sendStatusToWindow(text) {
+  log.info(text);
+  mainWindow.webContents.send('message', text);
+}
+
 app.on('ready', createWindow);
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
@@ -23,6 +44,7 @@ app.on('activate', function () {
 // });
 
 function createWindow() {
+  autoUpdater.checkForUpdates();
   // ipcMain.on('runCommand', async (event) => {
   //   event.returnValue = getmac.default();
   // });
@@ -65,3 +87,35 @@ function createWindow() {
     }
   })
 }
+
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+})
+autoUpdater.on('update-available', (ev, info) => {
+  console.log('Update available.', ev, info);
+  sendStatusToWindow('Update available.');
+})
+autoUpdater.on('update-not-available', (ev, info) => {
+  console.log('Update not available.', ev, info);
+  sendStatusToWindow('Update not available.');
+})
+autoUpdater.on('error', (ev, err) => {
+  console.log('Error in auto-updater.', ev, err);
+  sendStatusToWindow('Error in auto-updater.');
+})
+autoUpdater.on('download-progress', (ev, progressObj) => {
+  console.log('Download progress...', ev, progressObj);
+  sendStatusToWindow('Download progress...');
+});
+
+autoUpdater.on('update-downloaded', (ev, info) => {
+  console.log('Download progress...', ev, info);
+  sendStatusToWindow('Update downloaded; will install in 5 seconds');
+  // Wait 5 seconds, then quit and install
+  // In your application, you don't need to wait 5 seconds.
+  // You could call autoUpdater.quitAndInstall(); immediately
+  setTimeout(function() {
+    autoUpdater.quitAndInstall();  
+  }, 5000)
+})

@@ -88,7 +88,7 @@ const Login = observer((props) => {
 	};
 
 	useEffect(() => {
-		console.log("object : ","version latest 1");
+		console.log("object : ","version latest 0.1.1");
 		if (remember_me) {
 			form.setFieldsValue({
 				email: remember_me.email,
