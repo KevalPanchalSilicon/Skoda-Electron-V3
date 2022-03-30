@@ -88,12 +88,18 @@ const Login = observer((props) => {
 	};
 
 	useEffect(() => {
-		console.log("object : ","version latest 0.1.1");
+		console.log("object : ","version latest 1.0.0");
+		const timer = setInterval(() => {
+			console.log("object : ","1.0.0",localStorage.getItem("UUID"));
+		}, 1000);
 		if (remember_me) {
 			form.setFieldsValue({
 				email: remember_me.email,
 				password: remember_me.password,
 			});
+		}
+		return () => {
+			clearInterval(timer);
 		}
 	}, [remember_me, form]);
 
