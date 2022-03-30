@@ -35,13 +35,5 @@ function handleError (e) {
 }
 
 window.ipcRenderer.on('message', function(event, text) {
-    const dialogOpts = {
-        type: 'info',
-        buttons: ['Restart', 'Later'],
-        title: 'Application Update',
-        message: text,
-        detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-      }
-    
-      dialog.showMessageBox(dialogOpts)
+    console.log("message : ",text);
 })

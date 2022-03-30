@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.0.1",
+	"version": "1.1.1",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -15,7 +15,8 @@
 			{
 				"provider": "github",
 				"owner": "KevalPanchalSilicon",
-				"repo": "Skoda-Electron"
+				"repo": "Skoda-Electron",
+				"releaseType": "release"
 			}
 		],
 		"mac": {
@@ -104,7 +105,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
-		"electron-pack": "electron-builder -c.extraMetadata.main=build/electron.js",
+		"electron-pack": "electron-builder -c.extraMetadata.main=build/electron.js -p always",
 		"electron-mac": "electron-builder -m -c.extraMetadata.main=build/electron.js",
 		"electron-win": "electron-builder -w -c.extraMetadata.main=build/electron.js",
 		"electron-linux": "electron-builder -l -c.extraMetadata.main=build/electron.js",
