@@ -35,7 +35,7 @@ jobs:
     - name: install dependencies
       run: npm install
     - name: install build
-      run: electron-builder build -mwl -p never
+      run: npm run package-build
     - name: publish
       env:
           GITHUB_TOKEN: ${{ github.token }}
