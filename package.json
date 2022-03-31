@@ -10,7 +10,6 @@
 	"build": {
 		"appId": "com.electron.skoda",
 		"productName": "Skoda App",
-		"buildVersion": "1.2.3",
 		"compression": "normal",
 		"publish": [
 			{
