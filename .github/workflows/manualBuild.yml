@@ -34,11 +34,14 @@ jobs:
         node-version: 14.17
     - name: install dependencies
       run: npm install
+    - name: Create a Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: install build
       run: npm run preelectron-pack
     - name: publish
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: npm run package-deploy
       
 #   build_on_win:
