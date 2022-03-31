@@ -25,9 +25,26 @@ jobs:
 #           GITHUB_TOKEN: ${{ github.token }}
 #       run: npm run electron-linux
 
+#   build_on_mac:
+#     runs-on: macos-latest
+#     steps:
+#     - uses: actions/setup-node@master
+#       with:
+#         node-version: 14.17
+#     - name: install dependencies
+#       run: npm install
+#     - name: install build
+#       run: npm run preelectron-pack
+#     - uses: actions/checkout@v2    
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     - name: publish
+#       run: npm run package-deploy
+
   build_on_mac:
     runs-on: macos-latest
     steps:
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@master
       with:
         node-version: 14.17
@@ -35,10 +52,9 @@ jobs:
       run: npm install
     - name: install build
       run: npm run preelectron-pack
-    - uses: actions/checkout@v2    
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: publish
+      env:
+          GITHUB_TOKEN: ${{ github.token }}
       run: npm run package-deploy
       
 #   build_on_win:
