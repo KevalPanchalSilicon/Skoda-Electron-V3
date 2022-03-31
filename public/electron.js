@@ -22,9 +22,9 @@ log.info('App starting...');
 
 let mainWindow = null;
 
-function sendStatusToWindow(text,object={}) {
+function sendStatusToWindow(text) {
   log.info(text);
-  mainWindow.webContents.send('message', text, object);
+  mainWindow.webContents.send('message', text);
 }
 
 app.on('ready', createWindow);
@@ -44,7 +44,6 @@ app.on('activate', function () {
 // });
 
 function createWindow() {
-  autoUpdater.checkForUpdates();
   // ipcMain.on('runCommand', async (event) => {
   //   event.returnValue = getmac.default();
   // });
@@ -63,6 +62,8 @@ function createWindow() {
   });
   console.log("Dev : ",`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`);
   console.log("Dev MAC : ",getmac.default());
+
+  autoUpdater.checkForUpdates();
 
   mainWindow.webContents.once('dom-ready', () => {
     mainWindow.webContents.send('setMacAddress', {UUID: getmac.default()});
@@ -94,7 +95,7 @@ autoUpdater.on('checking-for-update', () => {
 })
 autoUpdater.on('update-available', (ev, info) => {
   console.log('Update available.', ev, info);
-  sendStatusToWindow('Update available.',{ev:ev,info:info});
+  sendStatusToWindow('Update available.');
 })
 autoUpdater.on('update-not-available', (ev, info) => {
   console.log('Update not available.', ev, info);
