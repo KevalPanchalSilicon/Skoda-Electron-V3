@@ -17,7 +17,6 @@
 				"owner": "KevalPanchalSilicon",
 				"repo": "Skoda-Electron-V3",
 				"releaseType": "release",
-				"vPrefixedTagName": "v1.2.5",
 				"PublishConfiguration":{
 					"publishAutoUpdate": true
 				}
