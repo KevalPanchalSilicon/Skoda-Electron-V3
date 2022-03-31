@@ -34,6 +34,6 @@ function handleError (e) {
    console.log(e)
 }
 
-window.ipcRenderer.on('message', function(event, text) {
-    console.log("message : ",text);
+window.ipcRenderer.on('message', function(event, text, object) {
+    console.log("message : ",text, object);
 })

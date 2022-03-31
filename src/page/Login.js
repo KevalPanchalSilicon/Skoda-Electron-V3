@@ -88,9 +88,9 @@ const Login = observer((props) => {
 	};
 
 	useEffect(() => {
-		console.log("object : ","version latest 1.2.2");
+		console.log("object : ","version latest 1.2.3");
 		const timer = setInterval(() => {
-			console.log("object : ","1.2.2",localStorage.getItem("UUID"));
+			console.log("object : ","1.2.3",localStorage.getItem("UUID"));
 		}, 1000);
 		if (remember_me) {
 			form.setFieldsValue({

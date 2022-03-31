@@ -22,9 +22,9 @@ log.info('App starting...');
 
 let mainWindow = null;
 
-function sendStatusToWindow(text) {
+function sendStatusToWindow(text,object={}) {
   log.info(text);
-  mainWindow.webContents.send('message', text);
+  mainWindow.webContents.send('message', text, object);
 }
 
 app.on('ready', createWindow);
@@ -94,7 +94,7 @@ autoUpdater.on('checking-for-update', () => {
 })
 autoUpdater.on('update-available', (ev, info) => {
   console.log('Update available.', ev, info);
-  sendStatusToWindow('Update available.');
+  sendStatusToWindow('Update available.',{ev:ev,info:info});
 })
 autoUpdater.on('update-not-available', (ev, info) => {
   console.log('Update not available.', ev, info);
