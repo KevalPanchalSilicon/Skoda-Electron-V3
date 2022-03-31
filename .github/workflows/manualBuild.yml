@@ -28,19 +28,17 @@ jobs:
   build_on_mac:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
     - uses: actions/setup-node@master
       with:
         node-version: 14.17
+    - uses: actions/create-release@v1
     - name: install dependencies
       run: npm install
-    - name: Create a Release
-      id: create_release
-      uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: install build
       run: npm run preelectron-pack
+    - uses: actions/checkout@v2
     - name: publish
       run: npm run package-deploy
       
