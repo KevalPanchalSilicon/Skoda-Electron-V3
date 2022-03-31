@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.2.5",
+	"version": "1.2.6",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -17,9 +17,7 @@
 				"owner": "KevalPanchalSilicon",
 				"repo": "Skoda-Electron-V3",
 				"releaseType": "release",
-				"PublishConfiguration":{
-					"publishAutoUpdate": true
-				}
+				"publishAutoUpdate": true
 			}
 		],
 		"mac": {
