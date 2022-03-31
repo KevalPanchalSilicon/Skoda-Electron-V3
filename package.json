@@ -22,14 +22,25 @@
 		],
 		"mac": {
 			"icon": "build/stellar-skoda-icon.icns",
-			"category": "Utility"
+			"category": "Utility",
+			"target": ["zip", "dmg"]
 		},
 		"win": {
-			"icon": "build/stellar-skoda-icon.png"
+			"icon": "build/stellar-skoda-icon.png",
+			"target": [
+				{
+				  "target": "nsis",
+				  "arch": [
+					"x64",
+					"ia32"
+				  ]
+				}
+			  ]
 		},
 		"linux": {
 			"icon": "build/stellar-skoda-icon.png",
-			"category": "Utility"
+			"category": "Utility",
+			"target": ["AppImage"]
 		},
 		"files": [
 			"build/**/*",
