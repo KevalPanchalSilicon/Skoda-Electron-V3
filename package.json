@@ -15,8 +15,12 @@
 			{
 				"provider": "github",
 				"owner": "KevalPanchalSilicon",
-				"repo": "Skoda-Electron",
-				"releaseType": "release"
+				"repo": "Skoda-Electron-V3",
+				"releaseType": "release",
+				"vPrefixedTagName": "v1.2.5",
+				"PublishConfiguration":{
+					"publishAutoUpdate": true
+				}
 			}
 		],
 		"mac": {
@@ -101,7 +105,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build-react": "react-scripts --max_old_space_size=6240 build",
+		"build": "react-scripts --max_old_space_size=6240 build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
@@ -112,10 +116,7 @@
 		"electron-production": "GH_TOKEN=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 electron-builder --win --mac --linux -p always",
 		"preelectron-pack": "react-scripts build",
 		"package-build": "electron-builder build -mwl -p never",
-		"package-deploy": "electron-builder build -mwl -p always",
-		"postinstall": "electron-builder install-app-deps",
-		"build": "electron-builder --mac --windows --linux",
-		"release": "electron-builder --mac --windows --linux --publish always"
+		"package-deploy": "electron-builder build -mwl -p always"
 	},
 	"eslintConfig": {
 		"extends": [
