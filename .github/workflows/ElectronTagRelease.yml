@@ -1,6 +1,10 @@
-name: Build/Push
+name: Build/Tag/Relese
 
-on: push
+on:
+  release:
+    # Pattern matched against refs/tags
+    tags:        
+      - 'v**'
 
 jobs:
   release:
