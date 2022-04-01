@@ -1,10 +1,10 @@
 name: Build/Tag/Relese
 
 on:
-  release:
-    # Pattern matched against refs/tags
-    tags:        
-      - 'v**'
+  workflow_run:
+    workflows: ["Build/Push"]
+    types:
+      - completed
 
 jobs:
   release:
