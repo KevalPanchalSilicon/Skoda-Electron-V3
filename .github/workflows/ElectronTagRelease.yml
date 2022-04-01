@@ -4,7 +4,7 @@ on:
   release:
     # Pattern matched against refs/tags
     tags:        
-      - '**'
+      - 'v**'
 
 jobs:
   release:
