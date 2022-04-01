@@ -1,7 +1,7 @@
 name: Build/Tag/Relese
 
 on:
-  push:
+  release:
     # Pattern matched against refs/tags
     tags:        
       - '**'
