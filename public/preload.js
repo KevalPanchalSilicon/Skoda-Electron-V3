@@ -1,5 +1,3 @@
-const { dialog } = require('electron');
-
 window.ipcRenderer = require('electron').ipcRenderer;
 
 window.ipcRenderer.on('SET_SOURCE', async (event, sourceId) => {
@@ -33,7 +31,3 @@ function handleStream (stream) {
 function handleError (e) {
    console.log(e)
 }
-
-window.ipcRenderer.on('message', function(event, text) {
-    console.log("message : ",text);
-})

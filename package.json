@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.2.9",
+	"version": "1.2.10",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -23,24 +23,29 @@
 		"mac": {
 			"icon": "build/stellar-skoda-icon.icns",
 			"category": "Utility",
-			"target": ["zip", "dmg"]
+			"target": [
+				"zip",
+				"dmg"
+			]
 		},
 		"win": {
 			"icon": "build/stellar-skoda-icon.png",
 			"target": [
 				{
-				  "target": "nsis",
-				  "arch": [
-					"x64",
-					"ia32"
-				  ]
+					"target": "nsis",
+					"arch": [
+						"x64",
+						"ia32"
+					]
 				}
-			  ]
+			]
 		},
 		"linux": {
 			"icon": "build/stellar-skoda-icon.png",
 			"category": "Utility",
-			"target": ["AppImage"]
+			"target": [
+				"AppImage"
+			]
 		},
 		"files": [
 			"build/**/*",
@@ -75,6 +80,7 @@
 		"electron-browser-storage": "^1.0.7",
 		"electron-is-dev": "^2.0.0",
 		"electron-log": "^4.4.6",
+		"electron-progressbar": "^2.0.1",
 		"electron-updater": "^4.6.5",
 		"firebase": "^9.6.1",
 		"getmac": "^5.20.0",
@@ -117,7 +123,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
-		"electron-pack": "electron-builder -c.extraMetadata.main=build/electron.js -p always",
+		"electron-pack": "GH_TOKEN=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 electron-builder -c.extraMetadata.main=build/electron.js -p always",
 		"electron-mac": "electron-builder -m -c.extraMetadata.main=build/electron.js",
 		"electron-win": "electron-builder -w -c.extraMetadata.main=build/electron.js",
 		"electron-linux": "electron-builder -l -c.extraMetadata.main=build/electron.js",

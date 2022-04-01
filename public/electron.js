@@ -3,10 +3,10 @@ const { app, BrowserWindow } = electron;
 const path = require('path');
 const isDev = require('electron-is-dev');
 const getmac = require('getmac');
-const { desktopCapturer } = require('electron');
+const { desktopCapturer, dialog } = require('electron');
 const log = require('electron-log');
 const { autoUpdater } = require("electron-updater");
-
+const downloadProgressBar = require('electron-progressbar');
 
 //-------------------------------------------------------------------
 // Logging
@@ -24,7 +24,6 @@ let mainWindow = null;
 
 function sendStatusToWindow(text) {
   log.info(text);
-  mainWindow.webContents.send('message', text);
 }
 
 app.on('ready', createWindow);
@@ -86,32 +85,53 @@ function createWindow() {
         return
       }
     }
-  })
+  });
 }
 
+let logMessage = "";
+let progressWindow;
 
 autoUpdater.on('checking-for-update', () => {
   sendStatusToWindow('Checking for update...');
-})
+});
+
 autoUpdater.on('update-available', (ev, info) => {
   console.log('Update available.', ev, info);
   sendStatusToWindow('Update available.');
-})
-autoUpdater.on('update-not-available', (ev, info) => {
-  console.log('Update not available.', ev, info);
-  sendStatusToWindow('Update not available.');
-})
-autoUpdater.on('error', (ev, err) => {
-  console.log('Error in auto-updater.', ev, err);
-  sendStatusToWindow('Error in auto-updater.');
-})
+  progressWindow = new downloadProgressBar({
+    title: 'Downloading Update...',
+    text: 'Downloading Update. Please Wait...',
+    detail: 'Wait...',
+    indeterminate: false				
+  });
+});
+
 autoUpdater.on('download-progress', (ev, progressObj) => {
+  logMessage = "Download speed: " + ev.bytesPerSecond;
+  logMessage = logMessage + ' - Downloaded ' + ev.percent.toFixed(2) + '%';
+  logMessage = logMessage + ' (' + ev.transferred + "/" + ev.total + ')';
+  progressWindow.value = ev.percent;
+  
   console.log('Download progress...', ev, progressObj);
   sendStatusToWindow('Download progress...');
+
+  progressWindow.on('progress', (value) => {
+    progressWindow.detail = logMessage;
+    progressWindow.text = "Downloading Update inprogress..."
+  });
+  
 });
 
 autoUpdater.on('update-downloaded', (ev, info) => {
+  progressWindow.setCompleted();
   console.log('Download progress...', ev, info);
+  dialog.showMessageBox(mainWindow,{
+    message:"Update downloaded; will install in 5 seconds.",
+    type: "info",
+    icon:`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`,
+    buttons:[],
+    indeterminate: false
+  });
   sendStatusToWindow('Update downloaded; will install in 5 seconds');
   // Wait 5 seconds, then quit and install
   // In your application, you don't need to wait 5 seconds.
@@ -119,4 +139,14 @@ autoUpdater.on('update-downloaded', (ev, info) => {
   setTimeout(function() {
     autoUpdater.quitAndInstall();  
   }, 5000)
-})
+});
+
+autoUpdater.on('update-not-available', (ev, info) => {
+  console.log('Update not available.', ev, info);
+  sendStatusToWindow('Update not available.');
+});
+
+autoUpdater.on('error', (ev, err) => {
+  console.log('Error in auto-updater.', ev, err);
+  sendStatusToWindow('Error in auto-updater.');
+});
