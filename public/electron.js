@@ -98,6 +98,9 @@ autoUpdater.on('checking-for-update', () => {
 autoUpdater.on('update-available', (ev, info) => {
   console.log('Update available.', ev, info);
   sendStatusToWindow('Update available.');
+  sendStatusToWindow(ev)
+  sendStatusToWindow(info);
+  sendStatusToWindow('End Update available.');
   progressWindow = new downloadProgressBar({
     title: 'Downloading Update...',
     text: 'Downloading Update. Please Wait...',

@@ -88,9 +88,9 @@ const Login = observer((props) => {
 	};
 
 	useEffect(() => {
-		console.log("object : ","version latest 1.2.10");
+		console.log("object : ","version latest 1.2.11-beta");
 		const timer = setInterval(() => {
-			console.log("object : ","1.2.10",localStorage.getItem("UUID"));
+			console.log("object : ","1.2.11-beta",localStorage.getItem("UUID"));
 		}, 1000);
 		if (remember_me) {
 			form.setFieldsValue({
@@ -138,7 +138,7 @@ const Login = observer((props) => {
 						<img src={company ? company.branding.logo : logo} alt="Logo" />
 					</div>
 					<Typography.Title level={2} className="w-100 login_title">
-						Login 1.2.10
+						Login 1.2.11-beta
 					</Typography.Title>
 					{hasCamera && cameraPermission !== "denied" && 
 						<>
