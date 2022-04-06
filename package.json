@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.2.11-beta",
+	"version": "1.2.12-beta",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -11,6 +11,7 @@
 		"appId": "com.electron.skoda",
 		"productName": "Skoda App",
 		"compression": "normal",
+		"generateUpdatesFilesForAllChannels": true,
 		"publish": [
 			{
 				"provider": "github",
@@ -81,7 +82,7 @@
 		"electron-is-dev": "^2.0.0",
 		"electron-log": "^4.4.6",
 		"electron-progressbar": "^2.0.1",
-		"electron-updater": "^4.6.5",
+		"electron-updater": "^5.0.0",
 		"firebase": "^9.6.1",
 		"getmac": "^5.20.0",
 		"mobx": "^5.15.4",
