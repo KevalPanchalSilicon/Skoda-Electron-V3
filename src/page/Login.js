@@ -1,3 +1,5 @@
+/*global scanner*/
+/*eslint no-undef: "error"*/
 import { Button, Form, Typography, Image } from "antd";
 import { observer } from "mobx-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -9,6 +11,8 @@ import Banner_img from "../images/login-bg.png";
 import logo from "../images/logo.png";
 import Webcam from "react-webcam";
 import BarcodeReader from "react-barcode-reader";
+import 'scanner-js/dist/scanner.js';
+import 'scanner-js/dist/scanner.css';
 
 const Login = observer((props) => {
 	const [form] = Form.useForm();
@@ -34,6 +38,49 @@ const Login = observer((props) => {
 		[webcamRef, setImgSrc]
 	);
 
+	/*
+	 * For scan document Start 	 * 
+	 */
+	const scanDocument = () => {
+		console.log("asdasdasd");
+		scanner.scan(displayImagesOnPage, {
+		  use_asprise_dialog: true, // Whether to use Asprise Scanning Dialog
+		  show_scanner_ui: true, //
+		  output_settings: [
+			{
+			  type: "return-base64",
+			  format: "jpg"
+			}
+		  ]
+		});
+	  };
+	  const displayImagesOnPage = (successful, mesg, response) => {
+		if (!successful) {
+		  // On error
+		  console.error("Failed: " + mesg);
+		  return;
+		}
+	
+		if (
+		  successful &&
+		  mesg != null &&
+		  mesg.toLowerCase().indexOf("user cancel") >= 0
+		) {
+		  // User cancelled.
+		  console.info("User cancelled");
+		  return;
+		}
+	
+		var scannedImages = scanner.getScannedImages(response, true, false); // returns an array of ScannedImage
+		console.log("User Image", scannedImages);
+		// for(var i = 0; (scannedImages instanceof Array) && i < scannedImages.length; i++) {
+		//     var scannedImage = scannedImages[i];
+		//     processScannedImage(scannedImage);
+		// }
+	  };
+	/**
+	 * Scan Document End
+	 */
 	useEffect(()=>{
 		// navigator.getMedia = ( navigator.getUserMedia || // use the proper vendor prefix
         //                navigator.webkitGetUserMedia ||
@@ -88,9 +135,9 @@ const Login = observer((props) => {
 	};
 
 	useEffect(() => {
-		console.log("object : ","version latest 1.2.12-beta");
+		console.log("object : ","version latest 1.2.13");
 		const timer = setInterval(() => {
-			console.log("object : ","1.2.12-beta",localStorage.getItem("UUID"));
+			console.log("object : ","1.2.13",localStorage.getItem("UUID"));
 		}, 1000);
 		if (remember_me) {
 			form.setFieldsValue({
@@ -108,7 +155,7 @@ const Login = observer((props) => {
 		console.log("Error : ", err)
 	};
 
-	const handleScan = (data) => {
+	const handleBarcodeScan = (data) => {
 		form.setFieldsValue({login_id: data});
 		console.log("data : ", data);
 	};
@@ -121,7 +168,7 @@ const Login = observer((props) => {
 						handleError(e);
 					}}
 					onScan={(e)=>{
-						handleScan(e);
+						handleBarcodeScan(e);
 					}}
 				/>
 			<div className="login__page__title__wrapper">
@@ -138,7 +185,7 @@ const Login = observer((props) => {
 						<img src={company ? company.branding.logo : logo} alt="Logo" />
 					</div>
 					<Typography.Title level={2} className="w-100 login_title">
-						Login 1.2.12-beta
+						Login 1.2.13
 					</Typography.Title>
 					{hasCamera && cameraPermission !== "denied" && 
 						<>
@@ -158,6 +205,7 @@ const Login = observer((props) => {
 							)}
 						</>
 					}
+					<button onClick={scanDocument}>Scan</button>
 					<Form form={form} onFinish={handleSubmit} labelCol={{ span: 24 }}>
 						<InputComponent
 							label="Username or Mobile no"

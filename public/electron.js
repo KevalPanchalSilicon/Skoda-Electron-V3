@@ -100,13 +100,30 @@ autoUpdater.on('update-available', (ev, info) => {
   sendStatusToWindow('Update available.');
   sendStatusToWindow(ev)
   sendStatusToWindow(info);
-  sendStatusToWindow('End Update available.');
-  progressWindow = new downloadProgressBar({
-    title: 'Downloading Update...',
-    text: 'Downloading Update. Please Wait...',
-    detail: 'Wait...',
-    indeterminate: false				
-  });
+  sendStatusToWindow(">>>>>><<<<<<<<<<< = ",ev.version);
+  sendStatusToWindow('End Update available.',(ev.version.includes("-beta") || ev.version.includes("-alpha")));
+  if(ev.version.includes("-beta") || ev.version.includes("-alpha")){
+    dialog.showMessageBox(mainWindow,{
+      message:"Wait... Found New Updates.",
+      type: "info",
+      icon:`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`,	
+      defaultId: 0,
+      cancelId: 1,
+      buttons: [`Install - ${ev.version}`, 'Later']
+    }, (buttonIndex) => {
+      if (buttonIndex === 0) {
+        autoUpdater.downloadUpdate();
+        //setImmediate(() => autoUpdater.quitAndInstall());
+      }
+    });
+  }else{
+    progressWindow = new downloadProgressBar({
+      title: 'Downloading Update...',
+      text: 'Downloading Update. Please Wait...',
+      detail: 'Wait...',
+      indeterminate: false				
+    });
+  }
 });
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
