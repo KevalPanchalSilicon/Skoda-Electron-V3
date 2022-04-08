@@ -26,6 +26,8 @@ log.info('App starting...');
 
 let mainWindow = null;
 
+let currentVersion = app.getVersion();
+
 function sendStatusToWindow(text) {
   log.info(text);
 }
@@ -96,6 +98,7 @@ let logMessage = "";
 let progressWindow;
 
 autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow(currentVersion);
   sendStatusToWindow('Checking for update...');
 });
 
