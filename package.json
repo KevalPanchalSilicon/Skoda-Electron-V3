@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.2.14",
+	"version": "1.2.15-beta",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
