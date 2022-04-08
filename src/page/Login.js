@@ -11,8 +11,14 @@ import Banner_img from "../images/login-bg.png";
 import logo from "../images/logo.png";
 import Webcam from "react-webcam";
 import BarcodeReader from "react-barcode-reader";
-import 'scanner-js/dist/scanner.js';
-import 'scanner-js/dist/scanner.css';
+// import 'scanner-js/dist/scanner.js';
+// import 'scanner-js/dist/scanner.css';
+
+let plateform = localStorage.getItem("PLATFORMOS");
+if(plateform === "win32"){
+	require('scanner-js/dist/scanner.js');
+	require('scanner-js/dist/scanner.css');
+}
 
 const Login = observer((props) => {
 	const [form] = Form.useForm();
@@ -42,17 +48,19 @@ const Login = observer((props) => {
 	 * For scan document Start 	 * 
 	 */
 	const scanDocument = () => {
-		console.log("asdasdasd");
-		scanner.scan(displayImagesOnPage, {
-		  use_asprise_dialog: true, // Whether to use Asprise Scanning Dialog
-		  show_scanner_ui: true, //
-		  output_settings: [
-			{
-			  type: "return-base64",
-			  format: "jpg"
-			}
-		  ]
-		});
+		console.log("asdasdasd : ", plateform);
+		if(plateform === "win32"){
+			scanner.scan(displayImagesOnPage, {
+			use_asprise_dialog: true, // Whether to use Asprise Scanning Dialog
+			show_scanner_ui: true, //
+			output_settings: [
+				{
+				type: "return-base64",
+				format: "jpg"
+				}
+			]
+			});
+		}
 	  };
 	  const displayImagesOnPage = (successful, mesg, response) => {
 		if (!successful) {
@@ -135,9 +143,9 @@ const Login = observer((props) => {
 	};
 
 	useEffect(() => {
-		console.log("object : ","version latest 1.2.15-beta");
+		console.log("object : ","version latest 1.2.15");
 		const timer = setInterval(() => {
-			console.log("object : ","1.2.15-beta",localStorage.getItem("UUID"));
+			console.log("object : ","1.2.15",localStorage.getItem("UUID"));
 		}, 1000);
 		if (remember_me) {
 			form.setFieldsValue({
@@ -185,7 +193,7 @@ const Login = observer((props) => {
 						<img src={company ? company.branding.logo : logo} alt="Logo" />
 					</div>
 					<Typography.Title level={2} className="w-100 login_title">
-						Login 1.2.15-beta
+						Login 1.2.15
 					</Typography.Title>
 					{hasCamera && cameraPermission !== "denied" && 
 						<>

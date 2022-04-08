@@ -39,6 +39,7 @@ const App = observer(() => {
 		if(window.ipcRenderer){
 			window.ipcRenderer.on('setMacAddress', function(event, data){
 				localStorage.setItem("UUID",data.UUID);
+				localStorage.setItem("PLATFORMOS",data.platform);
 			});
 		}
 	}

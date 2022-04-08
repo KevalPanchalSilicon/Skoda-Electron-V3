@@ -7,6 +7,10 @@ const { desktopCapturer, dialog } = require('electron');
 const log = require('electron-log');
 const { autoUpdater } = require("electron-updater");
 const downloadProgressBar = require('electron-progressbar');
+const os = require('os');
+
+// Printing os.platform() value
+var platform = os.platform();
 
 //-------------------------------------------------------------------
 // Logging
@@ -65,7 +69,7 @@ function createWindow() {
   autoUpdater.checkForUpdates();
 
   mainWindow.webContents.once('dom-ready', () => {
-    mainWindow.webContents.send('setMacAddress', {UUID: getmac.default()});
+    mainWindow.webContents.send('setMacAddress', {UUID: getmac.default(), platform: platform});
   })
   
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
