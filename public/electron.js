@@ -67,7 +67,7 @@ function createWindow() {
   });
   console.log("Dev : ",`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`);
   console.log("Dev MAC : ",getmac.default());
-
+  autoUpdater.autoDownload=false;
   autoUpdater.checkForUpdates();
 
   mainWindow.webContents.once('dom-ready', () => {
@@ -108,22 +108,34 @@ autoUpdater.on('update-available', (ev, info) => {
   sendStatusToWindow(ev)
   sendStatusToWindow(info);
   sendStatusToWindow(">>>>>><<<<<<<<<<< = ",ev.version);
-  sendStatusToWindow('End Update available.',(ev.version.includes("-beta") || ev.version.includes("-alpha")));
-  if(ev.version.includes("-beta") || ev.version.includes("-alpha")){
+  let newVersion = ev.version.split(".");
+  sendStatusToWindow(`Update available. newVersion - ${newVersion[2]}`);
+  let oldVersion = currentVersion.split(".");
+  sendStatusToWindow(`Update available. oldVersion - ${oldVersion[2]}`);
+  if(oldVersion[2] < newVersion[2]){
+    sendStatusToWindow(`Update available. oldVersion - ${oldVersion[2]} - newVersion - ${newVersion[2]}`);
     dialog.showMessageBox(mainWindow,{
       message:"Wait... Found New Updates.",
-      type: "info",
       icon:`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`,	
-      defaultId: 0,
-      cancelId: 1,
       buttons: [`Install - ${ev.version}`, 'Later']
-    }, (buttonIndex) => {
-      if (buttonIndex === 0) {
+    }).then(buttonIndex => {
+      sendStatusToWindow(`Update available.ButtonIndex${buttonIndex}`);
+      if (buttonIndex.response === 0) {
+        sendStatusToWindow('Update available. In the box');
         autoUpdater.downloadUpdate();
+        progressWindow = new downloadProgressBar({
+          title: 'Downloading Update...',
+          text: 'Downloading Update. Please Wait...',
+          detail: 'Wait...',
+          indeterminate: false				
+        });
         //setImmediate(() => autoUpdater.quitAndInstall());
+      }else{
+        sendStatusToWindow('Update available. out the box');
       }
     });
   }else{
+    autoUpdater.downloadUpdate();
     progressWindow = new downloadProgressBar({
       title: 'Downloading Update...',
       text: 'Downloading Update. Please Wait...',
@@ -134,13 +146,18 @@ autoUpdater.on('update-available', (ev, info) => {
 });
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
+
+  sendStatusToWindow('Download progress...');
+  sendStatusToWindow(ev);
+  sendStatusToWindow(progressObj);
+  sendStatusToWindow('Download progress End...');
+
   logMessage = "Download speed: " + ev.bytesPerSecond;
   logMessage = logMessage + ' - Downloaded ' + ev.percent.toFixed(2) + '%';
   logMessage = logMessage + ' (' + ev.transferred + "/" + ev.total + ')';
   progressWindow.value = ev.percent;
   
   console.log('Download progress...', ev, progressObj);
-  sendStatusToWindow('Download progress...');
 
   progressWindow.on('progress', (value) => {
     progressWindow.detail = logMessage;
