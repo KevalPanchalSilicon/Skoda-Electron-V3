@@ -115,8 +115,8 @@ autoUpdater.on('update-available', (ev, info) => {
   if(oldVersion[2] < newVersion[2]){
     sendStatusToWindow(`Update available. oldVersion - ${oldVersion[2]} - newVersion - ${newVersion[2]}`);
     dialog.showMessageBox(mainWindow,{
-      message:"Wait... Found New Updates.",
-      icon:`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`,	
+      message:`Wait... Found New Updates - ${ev.version}`,
+      icon:`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`,
       buttons: [`Install - ${ev.version}`, 'Later']
     }).then(buttonIndex => {
       sendStatusToWindow(`Update available.ButtonIndex${buttonIndex}`);
