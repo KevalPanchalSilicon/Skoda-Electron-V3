@@ -14,8 +14,11 @@
 		"generateUpdatesFilesForAllChannels": true,
 		"publish": [
 			{
-				"provider": "generic",
-				"url": "http://canis-api.silicontechnolabs.com:9013/downloadVersionFile"
+				"provider": "github",
+				"owner": "KevalPanchalSilicon",
+				"repo": "Skoda-Electron-V3",
+				"releaseType": "release",
+				"channel": "latest"
 			}
 		],
 		"mac": {
