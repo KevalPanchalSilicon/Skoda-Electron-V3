@@ -8,6 +8,7 @@ const log = require('electron-log');
 const { autoUpdater } = require("electron-updater");
 const downloadProgressBar = require('electron-progressbar');
 const os = require('os');
+const fetch = require('electron-fetch').default;
 
 // Printing os.platform() value
 var platform = os.platform();
@@ -43,7 +44,20 @@ app.on('activate', function () {
     createWindow()
   }
 });
-
+var version = currentVersion;
+var versionReleaseUrl = "";
+async function getCurrentVersion(){
+  await fetch('http://canis-api.silicontechnolabs.com:9013/downloadVersionFile')
+	.then(res => res.json())
+	.then(json =>  {
+    console.log("json.currentRelease", json.currentRelease);
+    version = json.currentRelease;
+    let versionRelease = json.releases.find(ver => ver.version === json.currentRelease);
+    if(versionRelease){
+      versionReleaseUrl = versionRelease.updateTo.url;
+    }
+  });
+}
 // ipcMain.on("getMacAddress", (event) => {
 //   return event.reply("sendMacAddress", getmac.default());
 // });
@@ -54,8 +68,8 @@ function createWindow() {
   // });
   //localStorage.setItem("UUID","asdasdasd");
   mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 1024,
+    width: 800,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -65,11 +79,23 @@ function createWindow() {
     title: "Skoda",
     icon: path.join(__dirname, '../build/stellar-skoda-icon.png'),
   });
+  mainWindow.maximize();
   console.log("Dev : ",`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`);
   console.log("Dev MAC : ",getmac.default());
-  autoUpdater.autoDownload=false;
-  autoUpdater.checkForUpdates();
+  try {
+      getCurrentVersion().then(() =>{
+      log.info(`App version... ${version}`);
+      log.info(`App version URL... ${versionReleaseUrl}`);
 
+      autoUpdater.fullChangelog = true;
+      autoUpdater.autoDownload=false;
+      autoUpdater.setFeedURL(`${versionReleaseUrl}`);
+      autoUpdater.checkForUpdates();
+    });
+   
+  } catch (e) {
+    log.info('[AUTO-UPDATE] error', e.toString());
+  }
   mainWindow.webContents.once('dom-ready', () => {
     mainWindow.webContents.send('setMacAddress', {UUID: getmac.default(), platform: platform});
   })
@@ -109,13 +135,13 @@ autoUpdater.on('update-available', (ev, info) => {
   sendStatusToWindow(info);
   sendStatusToWindow(">>>>>><<<<<<<<<<< = ",ev.version);
   let newVersion = ev.version.split(".");
-  sendStatusToWindow(`Update available. newVersion - ${newVersion[2]}`);
   let oldVersion = currentVersion.split(".");
-  sendStatusToWindow(`Update available. oldVersion - ${oldVersion[2]}`);
   if(oldVersion[2] < newVersion[2]){
     sendStatusToWindow(`Update available. oldVersion - ${oldVersion[2]} - newVersion - ${newVersion[2]}`);
     dialog.showMessageBox(mainWindow,{
+      type:"info",
       message:`Wait... Found New Updates - ${ev.version}`,
+      detail: `\n# My shiny new version release notes\nWith some details\n - Detail a\n - Detail b\n`,
       icon:`${path.join(__dirname, '../build/stellar-skoda-icon.png')}`,
       buttons: [`Install - ${ev.version}`, 'Later']
     }).then(buttonIndex => {
