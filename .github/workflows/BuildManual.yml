@@ -1,6 +1,10 @@
 name: Build/Push
 
-on: push
+on:
+  push:
+    branches:
+      - 'dev'
+
 
 jobs:
   release:
