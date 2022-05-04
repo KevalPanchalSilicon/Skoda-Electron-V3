@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.3.10",
+	"version": "1.3.11",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -42,19 +42,25 @@
 		"mac": {
 			"icon": "build/stellar-skoda-icon.icns",
 			"category": "Utility",
-			"target": ["zip"],
+			"target": [
+				"zip"
+			],
 			"type": "distribution",
-      		"hardenedRuntime": true,
+			"hardenedRuntime": true,
 			"gatekeeperAssess": false
 		},
 		"win": {
 			"icon": "build/stellar-skoda-icon.png",
-			"target": ["nsis"]
+			"target": [
+				"nsis"
+			]
 		},
 		"linux": {
 			"icon": "build/stellar-skoda-icon.png",
 			"category": "Utility",
-			"target": ["AppImage"]
+			"target": [
+				"AppImage"
+			]
 		},
 		"directories": {
 			"buildResources": "assets"
@@ -79,7 +85,6 @@
 		"ag-grid-react": "^24.0.1",
 		"antd": "^4.13.0",
 		"axios": "^0.21.1",
-		"babel-loader": "8.1.0",
 		"cli-truncate": "^3.1.0",
 		"date-fns": "^2.27.0",
 		"electron-browser-storage": "^1.0.7",
@@ -126,11 +131,11 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts --max_old_space_size=6240 build",
+		"build": "react-scripts webpack --mode production --max_old_space_size=6240 build ",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
-		"electron-pack": "GH_TOKEN=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 electron-builder build -p always",
+		"electron-pack": "GH_TOKEN=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 webpack --mode production electron-builder build -p always",
 		"electron-mac": "electron-builder -m -c.extraMetadata.main=build/electron.js",
 		"electron-win": "electron-builder -w -c.extraMetadata.main=build/electron.js",
 		"electron-linux": "electron-builder -l -c.extraMetadata.main=build/electron.js",
@@ -153,10 +158,18 @@
 		]
 	},
 	"devDependencies": {
+		"babel-core": "^6.26.3",
+		"babel-loader": "^8.1.0",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-react": "^6.24.1",
 		"concurrently": "^7.0.0",
 		"cross-env": "^7.0.3",
 		"electron": "^16.0.7",
 		"electron-builder": "^22.14.5",
-		"wait-on": "^6.0.0"
+		"html-webpack-plugin": "^5.5.0",
+		"wait-on": "^6.0.0",
+		"webpack": "^5.72.0",
+		"webpack-cli": "^4.9.2",
+		"webpack-dev-server": "^4.8.1"
 	}
 }
