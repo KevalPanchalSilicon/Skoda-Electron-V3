@@ -1,13 +1,12 @@
-const electron = require('electron');
-const { app, BrowserWindow } = electron;
-const path = require('path');
-const isDev = require('electron-is-dev');
-const getmac = require('getmac');
-const { desktopCapturer, dialog } = require('electron');
-const log = require('electron-log');
-const { autoUpdater } = require("electron-updater");
-const downloadProgressBar = require('electron-progressbar');
-const os = require('os');
+import {app, BrowserWindow, desktopCapturer, dialog } from "electron";
+import {path} from "path";
+import {autoUpdater} from "electron-updater";
+import {isDev} from "electron-is-dev";
+import {getmac} from "getmac";
+import {log} from "electron-log";
+import {downloadProgressBar} from "electron-progressbar";
+import {os} from "os";
+//const os = require('os');
 const fetch = require('electron-fetch').default;
 
 // Printing os.platform() value
