@@ -1,6 +1,6 @@
 {
 	"name": "skoda_web",
-	"version": "1.3.8",
+	"version": "1.3.9",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Skoda Web",
@@ -11,6 +11,13 @@
 		"appId": "com.electron.skoda",
 		"productName": "Skoda App",
 		"compression": "store",
+		"asar": true,
+		"asarUnpack": "**\\*.{node,dll}",
+		"files": [
+			"dist",
+			"node_modules",
+			"package.json"
+		],
 		"generateUpdatesFilesForAllChannels": true,
 		"publish": [
 			{
@@ -24,34 +31,20 @@
 		"mac": {
 			"icon": "build/stellar-skoda-icon.icns",
 			"category": "Utility",
-			"target": [
-				"zip",
-				"dmg"
-			]
+			"target": ["zip"],
+			"type": "distribution",
+      		"hardenedRuntime": true,
+			"gatekeeperAssess": false
 		},
 		"win": {
 			"icon": "build/stellar-skoda-icon.png",
-			"target": [
-				{
-					"target": "nsis",
-					"arch": [
-						"x64",
-						"ia32"
-					]
-				}
-			]
+			"target": ["nsis"]
 		},
 		"linux": {
 			"icon": "build/stellar-skoda-icon.png",
 			"category": "Utility",
-			"target": [
-				"AppImage"
-			]
+			"target": ["AppImage"]
 		},
-		"files": [
-			"build/**/*",
-			"node_modules/**/*"
-		],
 		"directories": {
 			"buildResources": "assets"
 		}
