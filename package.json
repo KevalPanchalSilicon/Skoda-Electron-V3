@@ -31,7 +31,6 @@
 			"!package.json",
 			"!package-lock.json",
 			"!src/",
-			"!build/",
 			"!package-lock.json_old",
 			"!.babelrc",
 			"!webpack.config.js"
